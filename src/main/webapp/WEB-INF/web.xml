@@ -3,4 +3,29 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+
+    <servlet>
+        <servlet-name>AddTaskServlet</servlet-name>
+        <servlet-class>ru.job4j.controller.AddTaskServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CheckTaskServlet</servlet-name>
+        <servlet-class>ru.job4j.controller.CheckTaskServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ShowAllTasksServlet</servlet-name>
+        <servlet-class>ru.job4j.controller.ShowAllTasksServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddTaskServlet</servlet-name>
+        <url-pattern>/addTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CheckTaskServlet</servlet-name>
+        <url-pattern>/checkTask</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowAllTasksServlet</servlet-name>
+        <url-pattern>/showAllTasks</url-pattern>
+    </servlet-mapping>
 </web-app>

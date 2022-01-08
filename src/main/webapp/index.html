@@ -1,9 +1,71 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script>
+      function addTask() {
+        $(function () {
+          var description = document.getElementById("taskDesc").value;
+          console.log(description);
+          $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/job4j_todo/addTask',
+            data: {description : description},
+            dataType: 'json'
+          }).done(function (data) {
+            console.log(data)
+            $('#tasksTable tr:last').after('<tr>'
+                    + '<td>' + data.description + '</td>'
+                    + '<td>' + data.created + '</td>'
+                    + '<td>' + data.done + '</td>'
+                    + '</tr>');
+          }).fail(function (err) {
+            console.log(err);
+          })
+        });
+      }
+    </script>
+
     <title>ToDoList</title>
   </head>
   <body>
-  <h2> Hello </h2>
+
+  <div style="display: inline-block; width: 40%;">
+    <form id="addTaskForm" style="border: black; border-width: 1px; border-style: solid"><br>
+      <span style="margin-top: 1%; margin-left: 39%; margin-bottom: 4%">Добавить задачу</span>
+      <input id="taskDesc" type="text" class="form-control" style="margin-top: 3%; text-align: center" placeholder="Описание задачи"><br>
+      <input style="margin-top: 1%; margin-left: 40%; margin-bottom: 4%" type="button" class="btn btn-success" value="Добавить" onclick="addTask()">
+    </form>
+    <div style="text-align: center; margin-top: 3%">
+      <input id="allTasksCheckBox" type="checkbox" onchange="" class="form-check-input">
+      <label class="form-check-label" for="allTasksCheckBox">
+        Показывать все задачи
+      </label>
+    </div>
+  </div>
+
+  <div style="display: inline-block; width: 59%; vertical-align: top; text-align: center">
+    <h2>Список задач</h2>
+    <div>
+      <table id="tasksTable">
+        <thead>
+          <tr>
+            <th style="width: 15%">Описание задачи</th>
+            <th style="width: 15%">Создана</th>
+            <th style="width: 15%">Статус выполнения</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   </body>
 </html>
