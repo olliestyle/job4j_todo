@@ -8,6 +8,41 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
     <script>
+      $(document).ready(function () {
+        $.ajax({
+          type: 'GET',
+          url: 'http://localhost:8080/job4j_todo/addTask',
+          dataType: 'json'
+        }).done(function (data) {
+          for (var task of data) {
+            $('#tasksTable thead:last').append('<tr>'
+                    + '<td>' + task.description + '</td>'
+                    + '<td>' + task.created + '</td>'
+                    + '<td>' + '<input type="checkbox" id="' + task.id + '" onchange="checkTask(' + task.id + ')">' + task.id + '</td>'
+                    + '</tr>')
+          }
+        }).fail(function (err) {
+          console.log(err);
+        });
+      });
+      function checkTask(taskId) {
+        $(function () {
+          console.log(taskId);
+          var rowToDelete = document.getElementById(taskId).parentNode.parentNode.rowIndex;
+          console.log(rowToDelete);
+          document.getElementById('tasksTable').deleteRow(rowToDelete);
+          $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/job4j_todo/checkTask',
+            data: {taskId : taskId},
+            dataType: 'json'
+          }).done(function () {
+
+          }).fail(function (err) {
+            console.log(err);
+          })
+        });
+      }
       function addTask() {
         $(function () {
           var description = document.getElementById("taskDesc").value;
@@ -18,15 +53,41 @@
             data: {description : description},
             dataType: 'json'
           }).done(function (data) {
-            console.log(data)
             $('#tasksTable tr:last').after('<tr>'
                     + '<td>' + data.description + '</td>'
                     + '<td>' + data.created + '</td>'
-                    + '<td>' + data.done + '</td>'
+                    + '<td>' + '<input type="checkbox" id="' + data.id + '" onchange="checkTask(' + data.id + ')">' + data.id + '</td>'
                     + '</tr>');
+            document.getElementById("taskDesc").value = "";
           }).fail(function (err) {
             console.log(err);
           })
+        });
+      }
+      function getDoneTasks() {
+        $(function () {
+          if (document.getElementById('allTasksCheckBox').checked === true) {
+            $.ajax({
+              type: 'GET',
+              url: 'http://localhost:8080/job4j_todo/showAllTasks',
+              dataType: 'json'
+            }).done(function (data) {
+              for (var task of data) {
+                $('#tasksTable thead:last').append('<tr>'
+                        + '<td>' + task.description + '</td>'
+                        + '<td>' + task.created + '</td>'
+                        + '<td>' + '<input type="checkbox" disabled="true" checked="true" id="done' + data.id + '">' + task.id + '</td>'
+                        + '</tr>')
+              }
+            }).fail(function (err) {
+              console.log(err);
+            })
+          } else {
+            var checkedBoxes = $("input[type=checkbox]:checked", "#tasksTable");
+            for (var i = 0; i < checkedBoxes.length; i++) {
+              document.getElementById('tasksTable').deleteRow(checkedBoxes[i].parentNode.parentNode.rowIndex);
+            }
+          }
         });
       }
     </script>
@@ -42,7 +103,7 @@
       <input style="margin-top: 1%; margin-left: 40%; margin-bottom: 4%" type="button" class="btn btn-success" value="Добавить" onclick="addTask()">
     </form>
     <div style="text-align: center; margin-top: 3%">
-      <input id="allTasksCheckBox" type="checkbox" onchange="" class="form-check-input">
+      <input id="allTasksCheckBox" type="checkbox" onchange="getDoneTasks()" class="form-check-input">
       <label class="form-check-label" for="allTasksCheckBox">
         Показывать все задачи
       </label>

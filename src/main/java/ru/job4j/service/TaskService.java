@@ -3,9 +3,11 @@ package ru.job4j.service;
 import ru.job4j.dao.TaskDAO;
 import ru.job4j.model.Task;
 
+import java.util.List;
+
 public class TaskService {
 
-    private final TaskDAO taskDAO = new TaskDAO();
+    private final TaskDAO taskDAO = TaskDAO.instOf();
 
     private TaskService() {
 
@@ -21,5 +23,17 @@ public class TaskService {
 
     public Task addTask(Task task) {
         return taskDAO.addTask(task);
+    }
+
+    public List<Task> getAllMissedTasks() {
+        return taskDAO.getAllMissedTasks();
+    }
+
+    public List<Task> getAllDoneTasks() {
+        return taskDAO.getAllDoneTasks();
+    }
+
+    public boolean changeTaskStatus(Integer id) {
+        return taskDAO.changeTaskStatus(id);
     }
 }
