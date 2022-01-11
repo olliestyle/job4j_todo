@@ -34,10 +34,16 @@ public class TaskDAO {
     private <T> T tx(final Function<Session, T> command) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        T rsl = command.apply(session);
-        session.getTransaction().commit();
-        session.close();
-        return rsl;
+        try {
+            T rsl = command.apply(session);
+            session.getTransaction().commit();
+            return rsl;
+        } catch (final Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     public Task addTask(Task task) {
