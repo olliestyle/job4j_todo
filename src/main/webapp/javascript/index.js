@@ -9,7 +9,7 @@ $(document).ready(function () {
             $('#tasksTable thead:last').append('<tr>'
                 + '<td>' + task.description + '</td>'
                 + '<td>' + task.created + '</td>'
-                + '<td>' + '<input type="checkbox" id="' + task.id + '" onchange="checkTask(' + task.id + ')">' + task.id + '</td>'
+                + '<td>' + '<input type="checkbox" id="' + task.id + '" onchange="checkTask(' + task.id + ')"></td>'
                 + '</tr>')
         }
     }).fail(function (err) {
@@ -49,7 +49,7 @@ function addTask() {
             $('#tasksTable tr:last').after('<tr>'
                 + '<td>' + data.description + '</td>'
                 + '<td>' + data.created + '</td>'
-                + '<td>' + '<input type="checkbox" id="' + data.id + '" onchange="checkTask(' + data.id + ')">' + data.id + '</td>'
+                + '<td>' + '<input type="checkbox" id="' + data.id + '" onchange="checkTask(' + data.id + ')"></td>'
                 + '</tr>');
             document.getElementById("taskDesc").value = "";
         }).fail(function (err) {
@@ -69,7 +69,7 @@ function getDoneTasks() {
                     $('#tasksTable thead:last').append('<tr>'
                         + '<td>' + task.description + '</td>'
                         + '<td>' + task.created + '</td>'
-                        + '<td>' + '<input type="checkbox" disabled="true" checked="true" id="done' + data.id + '">' + task.id + '</td>'
+                        + '<td>' + '<input type="checkbox" disabled="true" checked="true" id="done' + data.id + '"></td>'
                         + '</tr>')
                 }
             }).fail(function (err) {
