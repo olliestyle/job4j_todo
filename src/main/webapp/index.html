@@ -27,10 +27,12 @@
       });
       function checkTask(taskId) {
         $(function () {
-          console.log(taskId);
-          var rowToDelete = document.getElementById(taskId).parentNode.parentNode.rowIndex;
-          console.log(rowToDelete);
-          document.getElementById('tasksTable').deleteRow(rowToDelete);
+          if (!document.getElementById('allTasksCheckBox').checked) {
+            var rowToDelete = document.getElementById(taskId).parentNode.parentNode.rowIndex;
+            document.getElementById('tasksTable').deleteRow(rowToDelete);
+          } else {
+            document.getElementById(taskId).setAttribute('disabled', 'true');
+          }
           $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/job4j_todo/checkTask',
