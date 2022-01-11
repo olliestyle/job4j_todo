@@ -8,6 +8,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import ru.job4j.model.Task;
 
 import java.util.List;
+import java.util.function.Function;
 
 public class TaskDAO {
 
@@ -30,41 +31,31 @@ public class TaskDAO {
         return TaskDAOHolder.TASK_DAO;
     }
 
-    public Task addTask(Task task) {
+    private <T> T tx(final Function<Session, T> command) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.save(task);
+        T rsl = command.apply(session);
         session.getTransaction().commit();
         session.close();
+        return rsl;
+    }
+
+    public Task addTask(Task task) {
+        tx(session -> session.save(task));
         return task;
     }
 
     public List<Task> getAllMissedTasks() {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        List<Task> allTasks = session.createQuery("select task from Task task where task.done = false", Task.class).getResultList();
-        session.getTransaction().commit();
-        session.close();
-        return allTasks;
+        return tx(session -> session.createQuery("select task from Task task where task.done = false", Task.class).getResultList());
     }
 
     public List<Task> getAllDoneTasks() {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        List<Task> allTasks = session.createQuery("select task from Task task where task.done = true", Task.class).getResultList();
-        session.getTransaction().commit();
-        session.close();
-        return allTasks;
+        return tx(session -> session.createQuery("select task from Task task where task.done = true", Task.class).getResultList());
     }
 
     public boolean changeTaskStatus(Integer id) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        int updated = session.createQuery("update Task t set t.done = true where t.id = :id")
+        return tx(session -> session.createQuery("update Task t set t.done = true where t.id = :id")
                 .setParameter("id", id)
-                .executeUpdate();
-        session.getTransaction().commit();
-        session.close();
-        return updated > 0;
+                .executeUpdate() > 0);
     }
 }
