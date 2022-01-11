@@ -14,19 +14,17 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AddTaskServlet extends HttpServlet {
 
-    private List<Task> taskList = new ArrayList<>();
     private static final Gson GSON = new GsonBuilder().create();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json; charset=utf-8");
         OutputStream output = resp.getOutputStream();
-        taskList = TaskService.instOf().getAllMissedTasks();
+        List<Task> taskList = TaskService.instOf().getAllMissedTasks();
         String json = GSON.toJson(taskList);
         output.write(json.getBytes(StandardCharsets.UTF_8));
         output.flush();
@@ -41,7 +39,6 @@ public class AddTaskServlet extends HttpServlet {
                 description,
                 Timestamp.from(Instant.now()),
                 false));
-        taskList.add(taskToAdd);
         resp.setContentType("application/json; charset=utf-8");
         OutputStream output = resp.getOutputStream();
         String json = GSON.toJson(taskToAdd);
