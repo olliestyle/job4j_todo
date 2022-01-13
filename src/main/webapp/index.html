@@ -16,24 +16,29 @@
       <span style="margin-top: 1%; margin-left: 39%; margin-bottom: 4%">Добавить задачу</span>
       <input id="taskDesc" type="text" class="form-control" style="margin-top: 3%; text-align: center" placeholder="Описание задачи"><br>
       <input style="margin-top: 1%; margin-left: 40%; margin-bottom: 4%" type="button" class="btn btn-success" value="Добавить" onclick="addTask()">
+      <br><span class="message"></span>
     </form>
-    <div style="text-align: center; margin-top: 3%">
-      <input id="allTasksCheckBox" type="checkbox" onchange="getDoneTasks()" class="form-check-input">
-      <label class="form-check-label" for="allTasksCheckBox">
-        Показывать все задачи
-      </label>
-    </div>
   </div>
 
-  <div style="display: inline-block; width: 59%; vertical-align: top; text-align: center">
+  <div style="display: inline-block; text-align: center; margin-top: 3%; width: 59%; vertical-align: top">
+    <br><span class="username"></span>
+    <input id="allTasksCheckBox" type="checkbox" onchange="getDoneTasks()" class="form-check-input">
+    <label class="form-check-label" for="allTasksCheckBox">
+      Показывать все задачи
+    </label>
+    <br><span class="exit"></span>
+  </div>
+
+  <div style="text-align: center">
     <h2>Список задач</h2>
     <div>
-      <table id="tasksTable">
+      <table id="tasksTable"border="2" style="word-wrap: break-word; width: 100%; table-layout: fixed">
         <thead>
           <tr>
-            <th style="width: 15%">Описание задачи</th>
-            <th style="width: 15%">Создана</th>
-            <th style="width: 15%">Статус выполнения</th>
+            <th style="width: 50%">Описание задачи</th>
+            <th style="width: 30%">Создана</th>
+            <th style="width: 10%">Автор</th>
+            <th style="width: 10%">Статус выполнения</th>
           </tr>
         </thead>
         <tbody>

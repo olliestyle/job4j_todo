@@ -16,5 +16,6 @@
 
 
         <mapping class="ru.job4j.model.Task" />
+        <mapping class="ru.job4j.model.User" />
     </session-factory>
 </hibernate-configuration>

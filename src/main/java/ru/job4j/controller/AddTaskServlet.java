@@ -3,9 +3,11 @@ package ru.job4j.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import ru.job4j.model.Task;
+import ru.job4j.model.User;
 import ru.job4j.service.TaskService;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,8 +36,9 @@ public class AddTaskServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String description = req.getParameter("description");
-        System.out.println(description);
+        User user = (User) req.getSession().getAttribute("user");
         Task taskToAdd = TaskService.instOf().addTask(new Task(
+                user,
                 description,
                 Timestamp.from(Instant.now()),
                 false));

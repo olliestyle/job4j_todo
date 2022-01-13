@@ -4,7 +4,11 @@
 
 [![Build Status](https://app.travis-ci.com/olliestyle/job4j_todo.svg?branch=main)](https://app.travis-ci.com/olliestyle/job4j_todo)
 
-![GIF of ToDo](https://github.com/olliestyle/job4j_todo/blob/main/images/todo.gif)
+![GIF of ToDo](https://github.com/olliestyle/job4j_todo/blob/main/images/todo1.gif)
+
+![GIF of ToDo](https://github.com/olliestyle/job4j_todo/blob/main/images/todo2.gif)
+
+![GIF of ToDo](https://github.com/olliestyle/job4j_todo/blob/main/images/todo3.gif)
 
 ![Image of ToDo](https://github.com/olliestyle/job4j_todo/blob/main/images/job4jtodo1.png)
 

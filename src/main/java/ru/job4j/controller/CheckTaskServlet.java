@@ -12,7 +12,6 @@ public class CheckTaskServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Integer id = Integer.parseInt(req.getParameter("taskId"));
-        System.out.println(id);
         TaskService.instOf().changeTaskStatus(id);
     }
 }

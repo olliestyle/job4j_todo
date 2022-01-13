@@ -13,6 +13,9 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     private String description;
     private Timestamp created;
     private boolean done;
@@ -22,6 +25,13 @@ public class Task {
     }
 
     public Task(String description, Timestamp created, boolean done) {
+        this.description = description;
+        this.created = created;
+        this.done = done;
+    }
+
+    public Task(User user, String description, Timestamp created, boolean done) {
+        this.user = user;
         this.description = description;
         this.created = created;
         this.done = done;
@@ -59,6 +69,14 @@ public class Task {
         this.done = done;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -78,7 +96,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +  "id=" + id +  ", description='" + description + '\''
+        return "Task{" +  "id=" + id + "user=" + user + ", description='" + description + '\''
                 + ", created=" + created +  ", done=" + done +  '}';
     }
 }
