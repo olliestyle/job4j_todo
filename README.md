@@ -10,9 +10,9 @@
 
 ![GIF of ToDo](https://github.com/olliestyle/job4j_todo/blob/main/images/todo3.gif)
 
-![Image of ToDo](https://github.com/olliestyle/job4j_todo/blob/main/images/job4jtodo1.png)
+![Image of ToDo](https://github.com/olliestyle/job4j_todo/blob/main/images/job4j_todo1.png)
 
-![Image of ToDo](https://github.com/olliestyle/job4j_todo/blob/main/images/job4jtodo2.png)
+![Image of ToDo](https://github.com/olliestyle/job4j_todo/blob/main/images/job4j_todo2.png)
 
 1. Приложение "Список дел". Пользователь контроллирует список своих дел.<br />
 Бэк: Servlet, JavaEE, JDK11, Hibernate<br />
