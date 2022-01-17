@@ -1,7 +1,8 @@
 create table users
 (
     id serial primary key,
-    name varchar(30) not null
+    name varchar(30) not null,
+    password varchar(30) not null
 );
 
 create table tasks
