@@ -52,11 +52,11 @@ public class TaskDAO {
     }
 
     public List<Task> getAllMissedTasks() {
-        return tx(session -> session.createQuery("select task from Task task where task.done = false", Task.class).getResultList());
+        return tx(session -> session.createQuery("select distinct task from Task task join fetch task.categories where task.done = false").list());
     }
 
     public List<Task> getAllDoneTasks() {
-        return tx(session -> session.createQuery("select task from Task task where task.done = true", Task.class).getResultList());
+        return tx(session -> session.createQuery("select distinct task from Task task join fetch task.categories where task.done = true", Task.class).getResultList());
     }
 
     public boolean changeTaskStatus(Integer id) {

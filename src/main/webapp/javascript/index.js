@@ -1,35 +1,7 @@
 "use strict"
 $(document).ready(function () {
-    $.ajax({
-        type: 'GET',
-        url: 'http://localhost:8080/job4j_todo/addTask.do',
-        dataType: 'json'
-    }).done(function (data) {
-        if (data === 'Сессия не найдена') {
-            if (document.getElementById('message') === null) {
-                $('<a id="message" href="http://localhost:8080/job4j_todo/login.html" style="margin-left: 30%; text-align: center; display: inline">Войдите</a>'
-                    + ' или ' + '<a href="http://localhost:8080/job4j_todo/reg.html">Зарегистрируйтесь</a>')
-                    .insertAfter(".message");
-            }
-        } else {
-            $('<p>Вы вошли как: ' + checkName() + ' </p>').insertAfter(".username");
-            $('<form action="/job4j_todo/logout.do">' +
-                '<input type="submit" class="btn btn-success" value="Выйти">' +
-                '<input type="hidden" name="rand" value="' + Math.random() +'">' +
-                '</form>')
-                .insertAfter(".exit");
-            for (var task of data) {
-                $('#tasksTable thead:last').append('<tr>'
-                    + '<td>' + task.description + '</td>'
-                    + '<td>' + task.created + '</td>'
-                    + '<td>' + task.user.name + '</td>'
-                    + '<td>' + '<input type="checkbox" id="' + task.id + '" onchange="checkTask(' + task.id + ')"></td>'
-                    + '</tr>')
-            }
-        }
-    }).fail(function (err) {
-        console.log(err);
-    });
+    loadTasks();
+    loadCategories();
 });
 function checkTask(taskId) {
     $(function () {
@@ -54,16 +26,23 @@ function checkTask(taskId) {
 function addTask() {
     $(function () {
         var description = document.getElementById("taskDesc").value;
+        var categories = $('#catIds').val();
+        console.log(categories)
         $.ajax({
             type: 'POST',
             url: 'http://localhost:8080/job4j_todo/addTask.do',
-            data: {description : description},
+            data: {description : description, categories : categories},
             dataType: 'json'
         }).done(function (data) {
             if (data === 'Сессия не найдена') {
             } else {
+                var cats = '';
+                for (var cat of data.categories) {
+                    cats += cat.name + ' ';
+                }
                 $('#tasksTable tr:last').after('<tr>'
                     + '<td>' + data.description + '</td>'
+                    + '<td>' + cats + '</td>'
                     + '<td>' + data.created + '</td>'
                     + '<td>' + data.user.name + '</td>'
                     + '<td>' + '<input type="checkbox" id="' + data.id + '" onchange="checkTask(' + data.id + ')"></td>'
@@ -86,8 +65,13 @@ function getDoneTasks() {
                 if (data === 'Сессия не найдена') {
                 } else {
                     for (var task of data) {
+                        var cats = '';
+                        for (var cat of task.categories) {
+                            cats += cat.name + ' ';
+                        }
                         $('#tasksTable thead:last').append('<tr>'
                             + '<td>' + task.description + '</td>'
+                            + '<td>' + cats + '</td>'
                             + '<td>' + task.created + '</td>'
                             + '<td>' + task.user.name + '</td>'
                             + '<td>' + '<input type="checkbox" disabled="true" checked="true" id="done' + data.id + '"></td>'
@@ -109,6 +93,66 @@ function checkName() {
     var params = new URLSearchParams(window.location.search);
     const username = params.get('username');
     return username;
+}
+function loadTasks() {
+    $(function () {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/job4j_todo/addTask.do',
+            dataType: 'json'
+        }).done(function (data) {
+            if (data === 'Сессия не найдена') {
+                if (document.getElementById('message') === null) {
+                    $('<a id="message" href="http://localhost:8080/job4j_todo/login.html" style="margin-left: 30%; text-align: center; display: inline">Войдите</a>'
+                        + ' или ' + '<a href="http://localhost:8080/job4j_todo/reg.html">Зарегистрируйтесь</a>')
+                        .insertAfter(".message");
+                }
+            } else {
+                $('<p>Вы вошли как: ' + checkName() + ' </p>').insertAfter(".username");
+                $('<form action="/job4j_todo/logout.do">' +
+                    '<input type="submit" class="btn btn-success" value="Выйти">' +
+                    '<input type="hidden" name="rand" value="' + Math.random() +'">' +
+                    '</form>')
+                    .insertAfter(".exit");
+                for (var task of data) {
+                    var cats = '';
+                    for (var cat of task.categories) {
+                        cats += cat.name + ' ';
+                    }
+                    $('#tasksTable thead:last').append('<tr>'
+                        + '<td>' + task.description + '</td>'
+                        + '<td>' + cats + '</td>'
+                        + '<td>' + task.created + '</td>'
+                        + '<td>' + task.user.name + '</td>'
+                        + '<td>' + '<input type="checkbox" id="' + task.id + '" onchange="checkTask(' + task.id + ')"></td>'
+                        + '</tr>')
+                }
+            }
+        }).fail(function (err) {
+            console.log(err);
+        });
+    })
+}
+function loadCategories() {
+    $(function () {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/job4j_todo/showAllCategories.do',
+            cache: false,
+            dataType: 'json'
+        }).done(function (data) {
+            if (data === 'Сессия не найдена') {
+                if (document.getElementById('message') === null) {
+                }
+            } else {
+                for (var cat of data) {
+                    $('#catIds').append(`<option value="${cat.id}">${cat.name}</option>`);
+                }
+            }
+        }).fail(function (err) {
+            console.log(err);
+        });
+    })
 }
 /*
 function exitTodo() {

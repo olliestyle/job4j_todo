@@ -3,7 +3,7 @@ package ru.job4j.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "tasks")
@@ -20,6 +20,8 @@ public class Task {
     private Timestamp created;
     private boolean done;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    Set<Category> categories = new HashSet<>();
 
     public Task() {
     }
@@ -35,6 +37,18 @@ public class Task {
         this.description = description;
         this.created = created;
         this.done = done;
+    }
+
+    public Task(User user, String description, Timestamp created, boolean done, Set<Category> categories) {
+        this.user = user;
+        this.description = description;
+        this.created = created;
+        this.done = done;
+        this.categories = categories;
+    }
+
+    public void addCategory(Category category) {
+        this.categories.add(category);
     }
 
     public int getId() {
@@ -77,6 +91,14 @@ public class Task {
         this.user = user;
     }
 
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -96,7 +118,9 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +  "id=" + id + "user=" + user + ", description='" + description + '\''
-                + ", created=" + created +  ", done=" + done +  '}';
+        return "Task{" + "id=" + id + ", user=" + user
+                + ", description='" + description
+                + ", created=" + created + ", done=" + done
+                + ", categories=" + categories + '}';
     }
 }

@@ -15,6 +15,9 @@
     <form id="addTaskForm" style="border: black; border-width: 1px; border-style: solid"><br>
       <span style="margin-top: 1%; margin-left: 39%; margin-bottom: 4%">Добавить задачу</span>
       <input id="taskDesc" type="text" class="form-control" style="margin-top: 3%; text-align: center" placeholder="Описание задачи"><br>
+      <span style="margin-top: 1%; margin-left: 39%; margin-bottom: 4%">Выбрать категории</span>
+      <select class="form-control" style="margin-top: 3%" name="catIds" id="catIds" multiple>
+      </select>
       <input style="margin-top: 1%; margin-left: 40%; margin-bottom: 4%" type="button" class="btn btn-success" value="Добавить" onclick="addTask()">
       <br><span class="message"></span>
     </form>
@@ -36,7 +39,8 @@
         <thead>
           <tr>
             <th style="width: 50%">Описание задачи</th>
-            <th style="width: 30%">Создана</th>
+            <th style="width: 15%">Категория</th>
+            <th style="width: 15%">Создана</th>
             <th style="width: 10%">Автор</th>
             <th style="width: 10%">Статус выполнения</th>
           </tr>

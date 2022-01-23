@@ -26,6 +26,10 @@
         <servlet-class>ru.job4j.controller.ShowAllTasksServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ShowAllCategoriesServlet</servlet-name>
+        <servlet-class>ru.job4j.controller.ShowAllCategoriesServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>RegistrationServlet</servlet-name>
         <servlet-class>ru.job4j.controller.RegistrationServlet</servlet-class>
     </servlet>
@@ -48,6 +52,10 @@
     <servlet-mapping>
         <servlet-name>ShowAllTasksServlet</servlet-name>
         <url-pattern>/showAllTasks.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowAllCategoriesServlet</servlet-name>
+        <url-pattern>/showAllCategories.do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RegistrationServlet</servlet-name>
