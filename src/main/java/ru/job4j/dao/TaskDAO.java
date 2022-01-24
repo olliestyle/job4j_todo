@@ -5,9 +5,13 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import ru.job4j.model.Category;
 import ru.job4j.model.Task;
+import ru.job4j.service.CategoryService;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 
 public class TaskDAO {
@@ -46,8 +50,12 @@ public class TaskDAO {
         }
     }
 
-    public Task addTask(Task task) {
-        tx(session -> session.save(task));
+    public Task addTask(Task task, List<Integer> catsIds) {
+        tx(session ->  {
+            List<Category> categories = session.createQuery("select c from Category c where c.id in :ids").setParameter("ids", catsIds).getResultList();
+            task.setCategories(new HashSet<>(categories));
+            return session.save(task);
+        });
         return task;
     }
 

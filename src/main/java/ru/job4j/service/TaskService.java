@@ -3,6 +3,7 @@ package ru.job4j.service;
 import ru.job4j.dao.TaskDAO;
 import ru.job4j.model.Task;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TaskService {
@@ -21,8 +22,12 @@ public class TaskService {
         return TaskServiceHolder.TASK_SERVICE;
     }
 
-    public Task addTask(Task task) {
-        return taskDAO.addTask(task);
+    public Task addTask(Task task, String[] catsIds) {
+        List<Integer> intIds = new ArrayList<>();
+        for (String id: catsIds) {
+            intIds.add(Integer.parseInt(id));
+        }
+        return taskDAO.addTask(task, intIds);
     }
 
     public List<Task> getAllMissedTasks() {

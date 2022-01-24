@@ -45,18 +45,4 @@ public class CategoryDAO {
         }
         return categories;
     }
-
-    public List<Category> findByIds(List<Integer> ids) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        List<Category> categories = null;
-        try {
-            categories = session.createQuery("select c from Category c where c.id in :ids").setParameter("ids", ids).getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        return categories;
-    }
 }

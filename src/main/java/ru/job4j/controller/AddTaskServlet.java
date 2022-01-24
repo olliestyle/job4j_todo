@@ -42,14 +42,12 @@ public class AddTaskServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String description = req.getParameter("description");
         String[] catsIds = req.getParameterValues("categories[]");
-        Set<Category> categories = new HashSet<>(CategoryService.instOf().findByIds(catsIds));
         User user = (User) req.getSession().getAttribute("user");
         Task taskToAdd = TaskService.instOf().addTask(new Task(
                 user,
                 description,
                 Timestamp.from(Instant.now()),
-                false,
-                categories));
+                false), catsIds);
         resp.setContentType("application/json; charset=utf-8");
         OutputStream output = resp.getOutputStream();
         String json = GSON.toJson(taskToAdd);
