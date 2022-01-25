@@ -2,7 +2,6 @@ package ru.job4j.model;
 
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.*;
 
 @Entity
@@ -17,7 +16,9 @@ public class Task {
     @JoinColumn(name = "user_id")
     private User user;
     private String description;
-    private Timestamp created;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created;
     private boolean done;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -26,20 +27,20 @@ public class Task {
     public Task() {
     }
 
-    public Task(String description, Timestamp created, boolean done) {
+    public Task(String description, Date created, boolean done) {
         this.description = description;
         this.created = created;
         this.done = done;
     }
 
-    public Task(User user, String description, Timestamp created, boolean done) {
+    public Task(User user, String description, Date created, boolean done) {
         this.user = user;
         this.description = description;
         this.created = created;
         this.done = done;
     }
 
-    public Task(User user, String description, Timestamp created, boolean done, Set<Category> categories) {
+    public Task(User user, String description, Date created, boolean done, Set<Category> categories) {
         this.user = user;
         this.description = description;
         this.created = created;
@@ -67,11 +68,11 @@ public class Task {
         this.description = description;
     }
 
-    public Timestamp getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(Timestamp created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 

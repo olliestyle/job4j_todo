@@ -15,12 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class AddTaskServlet extends HttpServlet {
 
@@ -46,7 +41,7 @@ public class AddTaskServlet extends HttpServlet {
         Task taskToAdd = TaskService.instOf().addTask(new Task(
                 user,
                 description,
-                Timestamp.from(Instant.now()),
+                new Date(System.currentTimeMillis()),
                 false), catsIds);
         resp.setContentType("application/json; charset=utf-8");
         OutputStream output = resp.getOutputStream();
